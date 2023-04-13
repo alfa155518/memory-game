@@ -41,13 +41,18 @@
     width: 800px;
     background-color: #aaa;
     padding: 15px;
-    border-radius: 28px;
+    border-radius: 10px;
     position: absolute;
     top: 19%;
-    left: 53px;
+    left: 60px;
     display: flex;
     justify-content: space-between;
     font-weight: bold;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border: 1px solid rgb(0, 91, 209);
 }
 
 .container-name-traits .name span  {
