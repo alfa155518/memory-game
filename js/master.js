@@ -1,128 +1,177 @@
+// start All variables 
 
-let controlButton = document.querySelector(".control-buttons ");
-let staRt = document.querySelector(".control-buttons span");
-let naMe = document.querySelector(".info-container .name span")
-let  containerBlock = document.querySelector(".container-block")
+let containerName = document.querySelector(".container-name-traits .name span")
 
-function tiMer() {
-    let time = document.createElement("div")
-    time.className="time"
-    time.innerHTML = 50
+let containerTraits = document.querySelector(".container-name-traits .traits span")
+
+let proMpt = prompt("Enter Your Name To Play")
+
+let gameContainer = document.querySelector(".game-container")
+
+let gameContainerBox = document.querySelectorAll(".game-container .box")
+
+let gameContainerBoxArray = Array.from(gameContainerBox)
+
+let soundSuccess = document.querySelector(".success")
+
+let soundWin = document.querySelector(".win")
+
+let soundFailed = document.querySelector(".flailed")
+
+
+// end All variables 
+
+
+// start overlay 
+
+let overLay = document.createElement("div")
+
+overLay.className = "over-lay"
+
+let start = document.createElement("p")
+
+start.innerHTML = "START"
+
+start.className = "start"
+
+overLay.appendChild(start)
+
+document.body.appendChild(overLay)
+
+
+start.onclick = function() {
     
-    document.body.appendChild(time)
-    let counTer = setInterval(() => {
-        time.innerHTML -=1
-        if (time.innerHTML === "10") {
-            time.classList.add("eph")
-        }
-        if (time.innerHTML === "0") {
-        clearInterval(counTer)
-        containerBlock.remove()
-        containerBlock.classList.add("failed")
-        let end = document.createElement("div")
-        end.className = "end-game"
-        end.innerHTML = "You Failed"
-        document.body.appendChild(end)
-        document.getElementById("failed").play()
-        }
-    }, 1000);
-    }
+    overLay.remove()
+    
+    
+    
+    // start Timer 
+    
+    
+    
+    let counter =  setInterval(() => {
 
-staRt.onclick = function() {
-    let message = prompt("Enter Your Name")
-    if (message == "" || message == null) {
-        naMe.innerHTML = "Unknown"
-    } else {
-        naMe.innerHTML = message
-                }
-    controlButton.remove()
-    tiMer()
+        let tiMer = document.querySelector(".container-name-traits .timer")
+        
+        let youLosses = document.createElement("div")
+        
+         youLosses.className = "losses"
+        
+        youLosses.innerHTML = "You Losses"
+
+        tiMer.innerHTML--
+
+    if (tiMer.innerHTML == 0) {
+        clearInterval(counter)
+
+        document.body.appendChild(youLosses)
+
+        soundFailed.play()
+
+        gameContainer.classList.add("no-click")
+
+        
+    }
+}, 1000);
+
+// end Timer 
+
 }
 
-let duration = 1000;
-
-let blocksContainer = document.querySelector(".container-block")
-
-let blocks = Array.from(blocksContainer.children)
 
 
 
-let orderRange = [...Array(blocks.length).keys()]
-shuffle(orderRange)
-blocks.forEach((block, index) => {
-    block.style.order = orderRange[index];
-    block.addEventListener("click", e => {
-        flippedBlock(block)
+// end overlay 
+
+
+
+
+
+
+// start containerNameTraits
+window.onload = function() {
+    if (proMpt == "" || proMpt == null) {
+        containerName.innerHTML = "UnKnown"
+    } else {
+        containerName.innerHTML = proMpt
+        
+    }
+}
+// end containerNameTraits
+
+
+
+
+
+
+
+// start order box 
+gameContainerBox.forEach(box => {
+    box.style.setProperty('--random', Math.random())
+})
+// end order box 
+
+
+gameContainerBoxArray.forEach(box => {
+    box.addEventListener("click", e => {
+        flip(box)
     })
-});
-function flippedBlock(selectedBlock) {
-
-    selectedBlock.classList.add("is-flipped");
-
-    let allFlippedBlocks = blocks.filter(flippedBlock => flippedBlock.classList.contains(`is-flipped`))
-
-    if(allFlippedBlocks.length == 2) {
-        noClicking()
-        checking(allFlippedBlocks[0], allFlippedBlocks[1])
-    }
-}
-
-function noClicking() {
-    blocksContainer.classList.add("no-click")
-    setTimeout(() => {
-        blocksContainer.classList.remove("no-click")
-    }, duration);
-}
-let Finch = document.createElement("div")
-Finch.innerHTML = "Well Done"
-let triesElement = document.querySelector(`.tries span`)
-function checking(firstElement, secondElement) {
-    if(firstElement.dataset.technology === secondElement.dataset.technology) {
-        firstElement.classList.remove(`is-flipped`)
-        secondElement.classList.remove(`is-flipped`)
-        firstElement.classList.add(`has-checked`)
-        secondElement.classList.add(`has-checked`)
-        document.getElementById("succes").play()
-    } else {
-        triesElement.innerHTML= parseInt(++triesElement.innerHTML);
-        setTimeout(() => {
-            firstElement.classList.remove(`is-flipped`)
-            secondElement.classList.remove(`is-flipped`)
-        }, duration)
-        document.getElementById("failed").play()
-    }
-    if(triesElement.innerHTML == "10") {
-        containerBlock.classList.add("failed")
-        let end = document.createElement("div")
-        end.className = "end-game"
-        end.innerHTML = "You Failed"
-        document.body.appendChild(end)
-        document.getElementById("failed").play()
-    }
-}
+})
 
 
 
-function shuffle(array) {
-    // Settings VArs 
-    let current = array.length, 
-    temp,
-    random;
+// start filter all flipped box 
+function flip(flipped) {
     
-    while (current > 0) {
-        // Get Random Number 
-        random = Math.floor(Math.random() * current)
+    flipped.classList.add("is-flipped")
 
-        // Decrease Length By One 
-        current--
-        
+    let filterBox = gameContainerBoxArray.filter(ele => ele.classList.contains("is-flipped")) 
+    
+    if (filterBox.length === 2) {
+        noClick()
+        check(filterBox[0], filterBox[1])
+    }  else {
 
-            temp= array[current]
-            array[current]= array[random]
-            array[random] = temp
-        
     }
-    return array;
 }
+// start filter all flipped box 
+
+
+
+// start function no click 
+function noClick() {
+    gameContainer.classList.add("no-click")
+
+    setTimeout(() => {
+        gameContainer.classList.remove("no-click")
+    }, 1000)
+}
+// end function no click 
+
+
+
+// start function check element 
+function check(firstElement, secondElement) {
+        if (firstElement.dataset.name === secondElement.dataset.name) {
+            firstElement.classList.remove("is-flipped")
+            secondElement.classList.remove("is-flipped")
+
+            soundSuccess.play()
+
+            firstElement.classList.add("has-flipped")
+            secondElement.classList.add("has-flipped")
+        } else {
+            containerTraits.innerHTML++
+            setTimeout(() => {
+
+            firstElement.classList.remove("is-flipped")
+            secondElement.classList.remove("is-flipped")
+
+            }, 1000);
+            soundFailed.play()
+        }
+}
+// end function check element 
+
 
 
