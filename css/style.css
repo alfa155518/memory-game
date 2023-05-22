@@ -96,7 +96,6 @@
     -moz-transition:all ease-in .5s;
     -ms-transition:all ease-in .5s;
     -o-transition:all ease-in .5s;
-    order:calc( 10 + var(--random)) ;
 }
 
 .game-container .box .face{

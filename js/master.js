@@ -12,6 +12,8 @@ let gameContainerBox = document.querySelectorAll(".game-container .box")
 
 let gameContainerBoxArray = Array.from(gameContainerBox)
 
+let orderRange = Array.from(Array(gameContainerBoxArray.length).keys())
+
 let soundSuccess = document.querySelector(".success")
 
 let soundWin = document.querySelector(".win")
@@ -55,7 +57,7 @@ start.onclick = function() {
         
         let youLosses = document.createElement("div")
         
-         youLosses.className = "losses"
+            youLosses.className = "losses"
         
         youLosses.innerHTML = "You Losses"
 
@@ -103,13 +105,15 @@ window.onload = function() {
 
 
 
-
+shuffle(orderRange)
 
 // start order box 
-gameContainerBox.forEach(box => {
-    box.style.setProperty('--random', Math.random())
+gameContainerBox.forEach((box,index) => {
+    box.style.order = orderRange[index]
 })
 // end order box 
+
+
 
 
 gameContainerBoxArray.forEach(box => {
@@ -173,5 +177,29 @@ function check(firstElement, secondElement) {
 }
 // end function check element 
 
+
+
+// shuffle function 
+
+function shuffle(array) {
+
+    let current = array.length, temp, random
+
+    while (current > 0) {
+
+        random = Math.floor(Math.random() * current);
+
+        current--;
+        
+
+        temp = array[current];
+
+        array[current] = array[random];
+
+        array[random] = temp;
+
+    };
+    return array;
+};
 
 
